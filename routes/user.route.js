@@ -57,32 +57,6 @@ const userSchemachk = new mongoose.Schema({
 // Create a user model
 const Userchk = mongoose.model('Userchk', userSchemachk);
 
-//taskSchema
-// const taskSchema = new mongoose.Schema({
-//     title: { type: String, required: true },
-//     description: { type: String },
-//     dueDate: { type: Date },
-//     // Other task-related fields...
-// });
-// //model for Task schema
-// const Task = mongoose.model('Task', taskSchema);
-
-
-// const userTaskSchema = new mongoose.Schema({
-//     userId: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: 'User',
-//     },
-//     taskId: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: 'Task',
-//     },
-//     title: String,
-//     description: String,
-//     dueDate: Date,
-// });
-
-// const UserTask = mongoose.model('UserTask', userTaskSchema);
 
 app.use(bodyParser.json());
 
