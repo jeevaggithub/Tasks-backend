@@ -356,6 +356,7 @@ app.get('/user/:userId/tasks', async (req, res) => {
                 const tasks = await Task.find({ taskListId: taskList._id });
                 return {
                     title: taskList.title,
+                    _id: taskList._id,
                     tasks: tasks
                 };
             })
@@ -378,6 +379,33 @@ app.get('/user/:userId/tasks', async (req, res) => {
 });
 
 
+// Create a route to delete a task list
+// Create a route to delete a task list
+app.delete('/deletelist/:userId/:taskListId', async (req, res) => {
+    try {
+        const { userId, taskListId } = req.params;
+
+        // Find the user by userId
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Delete the task list using deleteOne
+        const result = await TaskList.deleteOne({ _id: taskListId, userId });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'Task list not found' });
+        }
+
+        console.log('Deleted task list:', taskListId);
+
+        res.status(200).json({ message: 'Task list deleted', taskListId });
+    } catch (error) {
+        console.error('Error deleting task list:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 
 // Group tasks by task list title
