@@ -40,7 +40,7 @@ process.on('SIGINT', () => {
     });
 });
 
-// mongodb://localhost:27017
+mongodb://localhost:27017
 
 
 app.listen(port, () => {

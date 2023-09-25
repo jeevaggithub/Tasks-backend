@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
 
 const TaskList = require('../models/TaskList'); // Import the TaskList model
 const Task = require('../models/task'); // Adjust the path as needed
@@ -351,6 +352,32 @@ app.get('/user/:userId/tasks', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+// Fetch user's tasks alone
+app.get('/user/:userId/tasks/:taskId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const taskId = req.params.taskId;
+
+        console.log(userId);
+        console.log(taskId);
+
+        const taskObjectId = new ObjectId(taskId);
+
+        const task = await Task.findOne({ _id: taskObjectId });
+
+        if (!task) {
+            console.log('Found task:', task);
+            return res.status(404).json({ message: 'Task not found' });
+        }
+
+        res.status(200).json(task);
+    } catch (error) {
+        console.error('Error fetching user task:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 
 
 // Create a route to delete a task list
